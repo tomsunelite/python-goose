@@ -223,7 +223,7 @@ class Crawler(object):
         return MetasExtractor(self.config, self.article)
 
     def get_publishdate_extractor(self):
-        return PublishDateExtractor(self.config, self.article)
+        return self.config.publishdate_extractor_class(self.config, self.article)
 
     def get_opengraph_extractor(self):
         return OpenGraphExtractor(self.config, self.article)

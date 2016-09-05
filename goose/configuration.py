@@ -26,6 +26,7 @@ from goose.text import StopWords
 from goose.parsers import Parser
 from goose.parsers import ParserSoup
 from goose.version import __version__
+from goose.extractors.publishdate import PublishDateExtractor
 
 HTTP_DEFAULT_TIMEOUT = 30
 
@@ -62,6 +63,8 @@ class Configuration(object):
 
         # defautl stopwrods class
         self.stopwords_class = StopWords
+
+        self.publishdate_extractor_class= PublishDateExtractor
 
         # path to your imagemagick convert executable,
         # on the mac using mac ports this is the default listed

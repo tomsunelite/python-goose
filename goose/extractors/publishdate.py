@@ -22,6 +22,7 @@ limitations under the License.
 """
 
 from goose.extractors import BaseExtractor
+import re
 
 KNOWN_PUBLISH_DATE_TAGS = [
     {'attribute': 'property', 'value': 'rnews:datePublished', 'content': 'content'},
@@ -30,6 +31,9 @@ KNOWN_PUBLISH_DATE_TAGS = [
     {'attribute': 'itemprop', 'value': 'datePublished', 'content': 'datetime'},
 ]
 
+DATETIME_PATTERNS = [
+re.compile(r'.*?(\d{4}-\d{1,2}-\d{1,2}\s\d{2}:\d{2}:\d{2}).*', re.MULTILINE|re.DOTALL),
+]
 
 class PublishDateExtractor(BaseExtractor):
     def extract(self):
@@ -44,3 +48,12 @@ class PublishDateExtractor(BaseExtractor):
                     known_meta_tag['content']
                 )
         return None
+
+class PublishDateReExtractor(BaseExtractor):
+    def extract(self):
+        text = self.parser.getText(self.article.doc)
+        for p in DATETIME_PATTERNS:
+            m = p.match(text)
+            if(m):
+                return m.group(1)
+        return ""
